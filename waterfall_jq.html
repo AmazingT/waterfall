@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>jQuery实现瀑布流布局</title>
+	
+	<style type="text/css">
+		*{
+			margin: 0;
+			padding: 0;
+		}
+		#container{
+			position: relative;
+		}
+		.box{
+			float: left;
+			padding: 15px 0  0 15px;
+		}
+		.pic{
+			padding: 10px;
+			border: 1px solid #ccc;
+			border-radius: 4px;
+			box-shadow: 0 0 5px #ccc;
+		}
+		.pic img{
+			width: 165px;
+			height: auto;
+		}
+	</style>
+	<script src="../JS/jquery-3.1.0.min.js"></script>
+</head>
+<body>
+	<div id="container">
+		<div class="box">
+			<div class="pic">
+				<img src="../images/0.jpg" alt="">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="../images/1.jpg" alt="">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="../images/2.jpg" alt="">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="../images/3.jpg" alt="">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="../images/4.jpg" alt="">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="../images/5.jpg" alt="">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="../images/6.jpg" alt="">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="../images/7.jpg" alt="">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="../images/8.jpg" alt="">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="../images/9.jpg" alt="">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="../images/10.jpg" alt="">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="../images/11.jpg" alt="">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="../images/12.jpg" alt="">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="../images/13.jpg" alt="">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="../images/14.jpg" alt="">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="../images/15.jpg" alt="">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="../images/16.jpg" alt="">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="../images/17.jpg" alt="">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="../images/18.jpg" alt="">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="../images/19.jpg" alt="">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="../images/20.jpg" alt="">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="../images/21.jpg" alt="">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="../images/22.jpg" alt="">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="../images/23.jpg" alt="">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="../images/24.jpg" alt="">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="../images/25.jpg" alt="">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="../images/26.jpg" alt="">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="../images/27.jpg" alt="">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="../images/28.jpg" alt="">
+			</div>
+		</div>
+		<div class="box">
+			<div class="pic">
+				<img src="../images/29.jpg" alt="">
+			</div>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+		$(window).on('load',function(){
+			waterfall();
+
+			var dataInt={"data":[{"src":"31.jpg"},{"src":"32.jpg"},{"src":"33.jpg"},{"src":"34.jpg"}]};
+			$(window).on('scroll',function(){
+
+				if(checkScrollSlide()){
+					
+					$.each(dataInt.data,function(key,value){
+						//创建class='box'的div
+						var oBox=$('<div>').addClass('box').appendTo($('#container'));
+						var oPic=$('<div>').addClass('pic').appendTo($(oBox));//jQuery的方法只能由jQuery对象调用!
+						$('<img>').attr('src','../images/'+$(value).attr('src')).appendTo($(oPic));
+					});
+					waterfall();
+				}
+			});
+		});
+
+		function waterfall(){
+			var oBoxs=$('#container>div');
+			var oBoxW=oBoxs.eq(0).outerWidth();
+			var cols=Math.floor($(window).width()/oBoxW);
+			$('#container').width(oBoxW*cols).css('margin','0 auto');
+
+			var arrHeight=[];
+			oBoxs.each(function(index,value){
+				if(index<cols){
+					arrHeight[index]=oBoxs.eq(index).outerHeight();
+					//arrHeight.push(oBoxs.eq(index).outerHeight());
+				}else{
+					var minHeight=Math.min.apply(null,arrHeight);
+					var minIndex=$.inArray(minHeight,arrHeight);//$.inArray获得minHeight这个值在arrHeight数组中的索引值
+					$(value).css({
+						'position':'absolute',
+						'top':minHeight+'px',
+						'left':minIndex*oBoxW+'px'
+					});
+					arrHeight[minIndex]+=oBoxs.eq(index).outerHeight();
+				}
+			});
+		}
+
+		function checkScrollSlide(){
+			var oBoxLast=$('#container>div').last();
+			var lastBoxH=oBoxLast.offset().top+Math.floor(oBoxLast.outerHeight()/2);
+			var winH=$(window).height()+$(window).scrollTop();
+
+			return (lastBoxH<winH)?true:false;
+		}
+	</script>
+</body>
+</html>
